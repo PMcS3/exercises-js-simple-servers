@@ -1,5 +1,7 @@
 let net = require('net');
 
+const fs = require('fs');
+
 let serverLog = require('./lib/serverLog');
 
 let SERVER_PORT = 2003;
@@ -9,6 +11,9 @@ let server = net.createServer(function(connection) {
 
   serverLog('CONNECT', `Client at ${clientAddress} connected`);
 
+  let contents = fs.readFileSync('./data/motd.txt', 'utf-8');
+  connection.write(contents);
+  connection.end(connection);
   /*
     1. Read the contents of data/motd.txt into memory
     2. Send the contents do the client using connection.write(...)

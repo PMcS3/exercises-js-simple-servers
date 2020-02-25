@@ -22,26 +22,30 @@ let server = net.createServer(function(connection) {
 
     if (!Number.isInteger(userGuess)) {
       // The user entered something other than an integer
-
       // Use connection.write(...) to print out a useful error message
       // and some instructions for the user.
+      connection.write(userGuess + 'Is not an integer');
+      connection.write('Guess a different number');
     } else if (userGuess < numberToGuess) {
       // The user's guess was too small.
       // Use connection.write(...) to tell them they're too cold.
+      connection.write('Too cold! ' + userGuess + 'is too small');
     } else if (userGuess > numberToGuess) {
       // The user's guess was too large.
       // Use connection.write(...) to tell them they're too hot.
+      connection.write('Too hot! ' + userGuess + 'is too big');
     } else if (userGuess === numberToGuess) {
       // The user guessed correctly!
-
+      connection.write(userGuess + 'Is correct!');
       // Use connection.write(...) to tell them they guessed correctly
       // Use connection.end() to end the client connection
+      connection.end(clientAddress);
     }
   });
 
   // Print a log message when a client hangs up on us
   connection.on('end', function() {
-    serverLog('DISCONNET', `Client ${clientAddress} disconnected`);
+    serverLog('DISCONNECT', `Client ${clientAddress} disconnected`);
   });
 });
 
